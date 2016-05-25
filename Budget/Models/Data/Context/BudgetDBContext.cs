@@ -18,7 +18,7 @@ namespace Budget.Models.Data.Context
         }
         public BudgetDBContext()
         {
-            Database.Connection.ConnectionString = "server=.;database=Budget;Trusted_Connection=TRUE;";
+            Database.Connection.ConnectionString = "server=.;database=Budget;Trusted_Connection=TRUE;"; 
         }
 
         public DbSet<Category> Category { get; set; }
