@@ -10,43 +10,41 @@
     @Html.ActionLink("Create New SubCategory","Create")
 </p>
 
-
-
-        <table class="table-bordered table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(m => m.SubCategoryID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @*@Html.DisplayNameFor(model => model.Category.Name)*@
-                        Main Category Name
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
+    <table class="table-bordered table ">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.SubCategoryID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Category.Name)*@
+                    Main Category Name
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
             {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SubCategoryID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Category.Name)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Create", "Create")
-                            @Html.ActionLink("Update", "Update", new { id = item.SubCategoryID })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.SubCategoryID })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubCategoryID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Create", "Create")
+                        @Html.ActionLink("Update", "Update", new { id = item.SubCategoryID })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.SubCategoryID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
