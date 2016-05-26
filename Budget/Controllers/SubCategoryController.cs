@@ -42,6 +42,55 @@ namespace Budget.Controllers
             return View(subCategory);
         }
 
+        public ActionResult Update(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            SubCategory subCategory = db.SubCategory.Find(id);
+            
+            ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name", subCategory.CategoryID);
+
+            if (subCategory != null)
+                return View(subCategory);
+            else
+                return HttpNotFound("No SubCategory!");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(SubCategory subCategory)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(subCategory).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");   
+            }
+            return View(subCategory);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if(id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            SubCategory subCategory = db.SubCategory.Find(id);
+            if (subCategory == null)
+                return HttpNotFound();
+            else
+            {
+                return View(subCategory);
+            }
+        }
+
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            SubCategory subCategory = db.SubCategory.Find(id);
+            subCategory.Status = 0;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
