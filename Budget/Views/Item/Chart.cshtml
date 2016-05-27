@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart</title>
+	<meta charset="utf-8" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="@Url.Content("~/Scripts/jquery-2.2.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/chart.js")" type="text/javascript"></script>
+</head>
+<body>
+
+
+    <script language="javascript" type="text/javascript">
+    window.onload = function ()
+        // $(document).ready(function () 
+    {
+        $.ajax({
+            datatype: "json",
+            type: "POST",
+            url: "/Item/Chart",
+            data: JSON,
+            success: function (data) {
+                //alert("yes");
+                BarChart(data);
+            },
+            error: function () {
+                alert("Nooo!!");
+            }
+        });
+    };
+
+    function BarChart(data) {
+        var barChartData = {
+            labels: data.Month,
+            datasets: [
+                {
+                    fillColor: "rgba(220,220,220,0.5)",
+                    strokeColor: "rgba(220,220,220,0.8)",
+                    highlightFill: "rgba(220,220,220,0.75)",
+                    highlightStroke: "rgba(220,220,220,1)",
+                    data: data.Expences
+                },
+                {
+                    fillColor: "rgba(151,187,205,0.5)",
+                    strokeColor: "rgba(151,187,205,0.8)",
+                    highlightFill: "rgba(151,187,205,0.75)",
+                    highlightStroke: "rgba(151,187,205,1)",
+                    data: data.Income
+                }
+            ]
+
+        }
+        var ctx = document.getElementById("dvbarchart").getContext("2d");
+        window.myBar = new Chart(ctx).Bar(barChartData, {
+            responsive: true
+        });
+
+    }
+    </script>
+
+    <div style="width:550px;">
+        <canvas id="dvbarchart"></canvas>
+    </div>
+
+</body>
+</html>

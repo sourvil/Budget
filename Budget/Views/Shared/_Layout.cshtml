@@ -7,6 +7,10 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+
+    <script src="@Url.Content("~/Scripts/moment.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/chart.js")" type="text/javascript"></script>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -21,9 +25,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Category", "Index", "Category")</li>
-                    <li>@Html.ActionLink("SubCategory", "Index", "SubCategory")</li>
+                    <li>@Html.ActionLink("İşlemler", "Index", "Item")</li>
+                    <li>@Html.ActionLink("Kategoriler", "Index", "Category")</li>
+                    <li>@Html.ActionLink("Alt Kategoriler", "Index", "SubCategory")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

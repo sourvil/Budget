@@ -12,13 +12,14 @@ namespace Budget.Models.Data.Models
         [Required]
         public int Amount { get; set; }
         [Required]
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         public string Note { get; set; }
         [Required]
-        public int CategoryID { get; set; }
+        public int SubCategoryID { get; set; }
         [Required]
         public int Status { get; set; }
 
-        public virtual Category Category { get; set; }
+        public virtual SubCategory SubCategory { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace Budget.Controllers
         // GET: Item
         public ActionResult Index()
         {
-            var item = db.Item.Include(i => i.Category);
+            var item = db.Item.Where(s => s.Status == 1);
             return View(item.ToList());
         }
 
@@ -40,7 +40,15 @@ namespace Budget.Controllers
         // GET: Item/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name");
+            //ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name");
+
+            ViewBag.SubCategoryID =
+                        db.SubCategory.Where(p => p.Status == 1)
+                        .Select(x => new SelectListItem
+                        {
+                            Value = x.SubCategoryID.ToString(),
+                            Text = x.Name,
+                        });
             return View();
         }
 
@@ -49,16 +57,17 @@ namespace Budget.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ItemID,Amount,Date,Note,CategoryID,Status")] Item item)
+        public ActionResult Create([Bind(Include = "ItemID,Amount,Date,Note,SubCategoryID")] Item item)
         {
             if (ModelState.IsValid)
             {
+                item.Status = 1;
                 db.Item.Add(item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name", item.CategoryID);
+            ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name", item.SubCategoryID);
             return View(item);
         }
 
@@ -74,7 +83,7 @@ namespace Budget.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name", item.CategoryID);
+            ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name", item.SubCategoryID);
             return View(item);
         }
 
@@ -83,7 +92,7 @@ namespace Budget.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ItemID,Amount,Date,Note,CategoryID,Status")] Item item)
+        public ActionResult Edit([Bind(Include = "ItemID,Amount,Date,Note,SubCategoryID")] Item item)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +100,7 @@ namespace Budget.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name", item.CategoryID);
+            ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name", item.SubCategoryID);
             return View(item);
         }
 
@@ -116,9 +125,47 @@ namespace Budget.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Item item = db.Item.Find(id);
-            db.Item.Remove(item);
+            //db.Item.Remove(item);
+            item.Status = 0;
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        //[HttpPost, ActionName("Chart")]
+        public JsonResult Chart()
+        {
+            var Items = db.Item.Include(x=>x.SubCategory.Category).Where(x => x.Status == 1);            
+
+            List<string> lstMonth = new List<string>();
+            List<string> lstExpences = new List<string>();
+            List<string> lstIncome = new List<string>();
+
+
+            foreach (var item in Items)
+            {
+                Item dbItem = item;
+                if (dbItem.SubCategory.Category.CategoryType)
+                {
+                    lstExpences.Add(dbItem.Amount.ToString());
+                }
+                else
+                {
+                    lstIncome.Add(dbItem.Amount.ToString());
+                }
+                lstMonth.Add(dbItem.Date.Month.ToString());
+
+            }
+
+
+            var BarChart = new
+            {
+                Month = lstMonth,
+                Expences = lstExpences,
+                Income = lstIncome,
+            };
+
+            return Json(BarChart, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
