@@ -185,7 +185,6 @@ namespace Budget.Controllers
         }
     }
 }
-
 public static class ExtensionMethods
 {
     public static string UppercaseFirstLetter(this string value)
