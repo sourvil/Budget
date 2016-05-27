@@ -2,6 +2,65 @@
     ViewBag.Title = "Budget Home Page";
 }
 
+<script language="javascript" type="text/javascript">
+    window.onload = function ()
+    {
+        $.ajax({
+            datatype: "json",
+            type: "POST",
+            url: "/Item/Chart",
+            data: JSON,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                BarChart(data);
+            },
+            error: function () {
+                alert("No Data!");
+            }
+        });
+    };
+
+    function BarChart(data) {
+        var barChartData = {
+            labels: data.Month,
+            datasets: [
+                {
+                    label: "Giderler",
+                    backgroundColor: "rgba(255, 0, 0, 0.4)",
+                    borderColor: "rgba(255, 0, 0, 1)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(255, 0, 0, 0.6)",
+                    hoverBorderColor: "rgba(255, 0, 0, 1)",
+                    data: data.Expences
+                },
+                {
+                    label: "Gelirler",
+                    backgroundColor: "rgba(0, 175, 0, 0.4)",
+                    borderColor: "rgba(0, 175, 0, 1)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(0, 175, 0, 0.6)",
+                    hoverBorderColor: "rgba(0, 175, 0, 1)",
+                    data: data.Income
+                }
+            ]
+
+        }
+        var ctx = document.getElementById("dvbarchart").getContext("2d");
+
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: { responsive: true }
+
+        });
+    }
+
+</script>
+
+<div style="width:800px;">
+    <canvas id="dvbarchart"></canvas>
+</div>
+
 
 
 

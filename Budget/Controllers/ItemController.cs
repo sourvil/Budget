@@ -131,11 +131,15 @@ namespace Budget.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Chart(int? id)
+        {
+            return View();
+        }
 
-        //[HttpPost, ActionName("Chart")]
+        [HttpPost, ActionName("Chart")]
         public JsonResult Chart()
         {
-            var Items = db.Item.Include(x=>x.SubCategory.Category).Where(x => x.Status == 1);            
+            var Items = db.Item.Include(x=>x.SubCategory.Category).Where(x => x.Status == 1).OrderBy(x => x.Date.Month);            
 
             List<string> lstMonth = new List<string>();
             List<string> lstExpences = new List<string>();
@@ -153,7 +157,10 @@ namespace Budget.Controllers
                 {
                     lstIncome.Add(dbItem.Amount.ToString());
                 }
-                lstMonth.Add(dbItem.Date.Month.ToString());
+                string strMonth = dbItem.Date.ToString("MMMM");
+                strMonth = strMonth.UppercaseFirstLetter();
+                if (!lstMonth.Contains(strMonth))
+                    lstMonth.Add(strMonth);
 
             }
 
@@ -176,5 +183,22 @@ namespace Budget.Controllers
             }
             base.Dispose(disposing);
         }
+    }
+}
+
+public static class ExtensionMethods
+{
+    public static string UppercaseFirstLetter(this string value)
+    {
+        //
+        // Uppercase the first letter in the string.
+        //
+        if (value.Length > 0)
+        {
+            char[] array = value.ToCharArray();
+            array[0] = char.ToUpper(array[0]);
+            return new string(array);
+        }
+        return value;
     }
 }

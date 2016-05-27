@@ -393,7 +393,6 @@
     <Content Include="Views\SubCategory\Index.cshtml" />
     <Content Include="Views\SubCategory\Update.cshtml" />
     <Content Include="Views\SubCategory\Delete.cshtml" />
-    <Content Include="Views\Item\Chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
