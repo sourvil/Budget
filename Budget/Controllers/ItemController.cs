@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Budget.Models.Data.Context;
 using Budget.Models.Data.Models;
+using System.Data.Entity.Core.Objects;
 
 namespace Budget.Controllers
 {
@@ -30,6 +31,8 @@ namespace Budget.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Item item = db.Item.Find(id);
+            //ObjectResult<string> or = db.Decrypt(item.AmountEncrypted);
+            //item.Amount = Convert.ToInt32(or.First().ToString());
             if (item == null)
             {
                 return HttpNotFound();
@@ -61,6 +64,8 @@ namespace Budget.Controllers
         {
             if (ModelState.IsValid)
             {
+                //ObjectResult<byte[]> or = db.Encrypt(item.Amount);
+                //item.AmountEncrypted =or.First();
                 item.Status = 1;
                 db.Item.Add(item);
                 db.SaveChanges();
