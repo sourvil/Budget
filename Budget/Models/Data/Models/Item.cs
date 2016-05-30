@@ -11,6 +11,9 @@ namespace Budget.Models.Data.Models
         public int ItemID { get; set; }
         [Required]
         public int Amount { get; set; }
+
+        public byte[] AmountEncrypted { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
