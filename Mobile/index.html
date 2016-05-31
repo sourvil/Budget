@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html ng-app="MainApp">
+<head>
+    <title>Budget Mobile</title>
+	<meta charset="utf-8" />
+</head>
+<body  ng-controller="MainController">
+    <h1 ng-init="name='burak'">{{name}}</h1>
+    <input ng-model="name" />
+
+    <div>
+        <p style="background-color:red">
+            {{surname}}
+        </p>
+        <p>
+            {{_surname2}}
+        </p>
+    </div>
+
+    <form name="MainForm" >
+        <input ng-model="surname" />
+        <button id="btnSetSurname"  ng-click="setSurname(surname)">Click</button>
+    </form>
+
+    <br />
+    <label>Search</label>
+    <input ng-model="searchText" />
+    <ul>
+        <li ng-repeat="team in teams | filter:searchText">
+            Name : {{team.name}}
+            Colors : {{team.colors}}
+        </li>
+    </ul>
+    
+
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Controllers/MainApp.js"></script>
+</body>
+</html>
