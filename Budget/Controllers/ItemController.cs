@@ -141,7 +141,7 @@ namespace Budget.Controllers
             return View();
         }
 
-        [HttpPost, ActionName("Chart")]
+        [HttpGet, ActionName("Chart")]
         public JsonResult Chart()
         {
             var Items = db.Item.Include(x=>x.SubCategory.Category).Where(x => x.Status == 1).OrderBy(x => x.Date.Month);            

@@ -5,11 +5,12 @@
 <script language="javascript" type="text/javascript">
     window.onload = function ()
     {
+        console.log("window loaded!");
         $.ajax({
             datatype: "json",
-            type: "POST",
+            type: "GET",
             url: "/Item/Chart",
-            data: JSON,
+            //data: JSON,
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 BarChart(data);
