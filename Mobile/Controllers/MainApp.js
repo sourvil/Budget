@@ -13,5 +13,19 @@
 
     $scope.setSurname = setSurname;
 
+    //$http.get("http://www.omdbapi.com/?s=" + $scope.search)
+    //    .then(function (response) { $scope.related = response.data; });
+
+    getCategories();
+
+    function getCategories() {
+        $http.get('http://localhost:2478/api/Category')
+     .then(function (res) {
+         console.log(res);
+         //$scope.people = res.data;
+         $scope.categories = res.data;
+     });
+    }
+
 });
 

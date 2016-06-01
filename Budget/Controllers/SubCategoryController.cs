@@ -8,10 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using Budget.Models.Data.Context;
 using Budget.Models.Data.Models;
+using Budget.Base;
 
 namespace Budget.Controllers
 {
-    public class SubCategoryController : Controller
+    public class SubCategoryController : BaseController
     {
         private BudgetDBContext db = new BudgetDBContext();
 

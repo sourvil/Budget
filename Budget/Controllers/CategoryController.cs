@@ -8,17 +8,27 @@ using System.Web;
 using System.Web.Mvc;
 using Budget.Models.Data.Context;
 using Budget.Models.Data.Models;
+using Budget.Base;
 
 namespace Budget.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private BudgetDBContext db = new BudgetDBContext();
 
         // GET: Category
         public ActionResult Index()
         {
-            return View(db.Category.ToList());
+            var result = GetWebApiResult("api/Category", new List<Resource.Models.Data.Models.Category>());
+            if (result.Count > 0)
+                return View(result as List<Resource.Models.Data.Models.Category>);
+            else
+                return View();
+
+            //Resource.Controllers.CategoryController cc = new Resource.Controllers.CategoryController();
+            //return View(cc.Get());
+
+            //return View(db.Category.ToList());
         }
 
         // GET: Category/Details/5

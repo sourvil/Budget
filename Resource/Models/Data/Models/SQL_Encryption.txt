@@ -1,0 +1,61 @@
+﻿CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'PASSWORD'
+
+CREATE CERTIFICATE enc_cert
+    WITH SUBJECT='BUDGET ENCRYPTION'
+GO
+
+ 
+CREATE SYMMETRIC KEY enc_sym_key
+    WITH ALGORITHM=DES
+    ENCRYPTION BY CERTIFICATE enc_cert
+GO
+
+OPEN SYMMETRIC KEY enc_sym_key
+    DECRYPTION BY CERTIFICATE enc_cert
+
+
+UPDATE Item
+    SET AmountEncrypted=EncryptByKey(
+                                Key_GUID('enc_sym_key'),
+                                cast(Amount as nvarchar(50)));
+
+OPEN SYMMETRIC KEY enc_sym_key
+    DECRYPTION BY CERTIFICATE enc_cert
+
+SELECT
+    *,
+    CONVERT(NVARCHAR, DecryptByKey(AmountEncrypted)) as 'Amount_Decrypted'
+FROM Item
+
+--CLOSE SYMMETRIC KEY enc_sym_key;
+
+CREATE PROCEDURE decrypt
+    @encryptedData VARBINARY(8000)
+AS
+BEGIN
+    OPEN SYMMETRIC KEY enc_sym_key DECRYPTION BY CERTIFICATE enc_cert;
+
+    SELECT CAST(DecryptByKey(@encryptedData) AS NVARCHAR(MAX)) AS data;
+
+    CLOSE ALL SYMMETRIC KEYS;
+END;
+GO
+
+ALTER PROCEDURE encrypt
+    @table VARCHAR(MAX),
+	@column VARCHAR(MAX),
+	@encryptedData	VARCHAR(MAX)
+AS
+BEGIN
+    OPEN SYMMETRIC KEY enc_sym_key DECRYPTION BY CERTIFICATE enc_cert;
+
+	DECLARE @TempSql VARCHAR(MAX)
+	SET @TempSql ='UPDATE ''' + @table + ''' SET ''' + @column + '''=EncryptByKey(Key_GUID(''enc_sym_key''), ''' + @encryptedData + ''')'
+
+	PRINT @TempSQL
+	--EXEC(@TempSQL)
+
+    CLOSE ALL SYMMETRIC KEYS;
+END;
+GO
+

@@ -9,7 +9,7 @@
     <input ng-model="name" />
 
     <div>
-        <p style="background-color:red">
+        <p>
             {{surname}}
         </p>
         <p>
@@ -31,6 +31,15 @@
             Colors : {{team.colors}}
         </li>
     </ul>
+    <ul>
+        <li ng-repeat="category in categories">
+            Name : {{category.Name}}
+        </li>
+    </ul>
+
+    
+
+    <!--<iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiYzBiYTA3NDYtM2U4NS00YTlhLTgwYTMtMWI0YTk4MGU0ZTE1IiwidCI6IjM0ZWY5Yzk0LWIwZTYtNDhlYS1hODk3LTA5OTAyMWZlOWNmZSIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>-->
     
 
     <script src="Scripts/angular.min.js"></script>

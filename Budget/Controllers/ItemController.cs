@@ -9,12 +9,14 @@ using System.Web.Mvc;
 using Budget.Models.Data.Context;
 using Budget.Models.Data.Models;
 using System.Data.Entity.Core.Objects;
+using Budget.Base;
 
 namespace Budget.Controllers
 {
-    public class ItemController : Controller
+    public class ItemController : BaseController
     {
         private BudgetDBContext db = new BudgetDBContext();
+        private Resource.Controllers.ItemController ic = new Resource.Controllers.ItemController();
 
         // GET: Item
         public ActionResult Index()
