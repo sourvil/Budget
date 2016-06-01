@@ -23,5 +23,12 @@ namespace Budget.Base
             }
             return t;
         }
+
+        protected HttpClient GetHttpClient()
+        {
+            HttpClient hc = new HttpClient();
+            hc.BaseAddress = new Uri(Common.ConfigValue.resourceServerUrl);
+            return hc;
+        }
     }
 }

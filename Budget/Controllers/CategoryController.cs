@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Budget.Models.Data.Context;
 using Budget.Models.Data.Models;
 using Budget.Base;
+using System.Net.Http;
 
 namespace Budget.Controllers
 {
@@ -24,11 +25,6 @@ namespace Budget.Controllers
                 return View(result as List<Resource.Models.Data.Models.Category>);
             else
                 return View();
-
-            //Resource.Controllers.CategoryController cc = new Resource.Controllers.CategoryController();
-            //return View(cc.Get());
-
-            //return View(db.Category.ToList());
         }
 
         // GET: Category/Details/5
@@ -38,12 +34,11 @@ namespace Budget.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Category.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
+            var result = GetWebApiResult("api/Category/" + id, new Resource.Models.Data.Models.Category());
+            if (result != null)
+                return View(result as Resource.Models.Data.Models.Category);
+            else
+                return View();
         }
 
         // GET: Category/Create
@@ -57,12 +52,15 @@ namespace Budget.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,CategoryType,Status")] Category category)
+        public ActionResult Create([Bind(Include = "Name,CategoryType,Status")] Resource.Models.Data.Models.Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Category.Add(category);
-                db.SaveChanges();
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.PostAsJsonAsync<Resource.Models.Data.Models.Category>("api/category/create", category).Result;
                 return RedirectToAction("Index");
             }
 
@@ -76,12 +74,11 @@ namespace Budget.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Category.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
+            var result = GetWebApiResult("api/Category/" + id, new Resource.Models.Data.Models.Category());
+            if (result != null)
+                return View(result as Resource.Models.Data.Models.Category);
+            else
+                return View();
         }
 
         // POST: Category/Edit/5
@@ -89,12 +86,16 @@ namespace Budget.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryID,Name,CategoryType,Status")] Category category)
+        public ActionResult Edit([Bind(Include = "CategoryID,Name,CategoryType,Status")] Resource.Models.Data.Models.Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
-                db.SaveChanges();
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.PutAsJsonAsync<Resource.Models.Data.Models.Category>("api/category", category).Result;
+
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -107,12 +108,11 @@ namespace Budget.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Category.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
+            var result = GetWebApiResult("api/Category/" + id, new Resource.Models.Data.Models.Category());
+            if (result != null)
+                return View(result as Resource.Models.Data.Models.Category);
+            else
+                return View();
         }
 
         // POST: Category/Delete/5
@@ -120,9 +120,15 @@ namespace Budget.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = db.Category.Find(id);
-            db.Category.Remove(category);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.DeleteAsync("api/category/" + id).Result;
+
+            }
             return RedirectToAction("Index");
         }
 
