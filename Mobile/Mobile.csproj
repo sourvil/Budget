@@ -66,7 +66,18 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ionic.css" />
+    <Content Include="Content\ionic.min.css" />
+    <Content Include="fonts\ionicons.svg" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\angular-ui-router.js" />
+    <Content Include="Scripts\angular-ui-router.min.js" />
+    <Content Include="Scripts\ionic-angular.js" />
+    <Content Include="Scripts\ionic-angular.min.js" />
+    <Content Include="Scripts\ionic.bundle.js" />
+    <Content Include="Scripts\ionic.bundle.min.js" />
+    <Content Include="Scripts\ionic.js" />
+    <Content Include="Scripts\ionic.min.js" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -81,6 +92,9 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="fonts\ionicons.woff" />
+    <Content Include="fonts\ionicons.ttf" />
+    <Content Include="fonts\ionicons.eot" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
