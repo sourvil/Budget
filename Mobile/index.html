@@ -1,11 +1,22 @@
 ﻿<!DOCTYPE html>
-<html ng-app="MainApp">
+<html ng-app="mainApp">
 <head>
     <title>Budget Mobile</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 </head>
-<body ng-controller="MainController">
+<body ng-controller="MainCtrl">
+    <!--// factory --> 
+    <!--// control as--> 
+    <!--// :: one way binding--> 
+    <!--// custom filter-->
+    <!--use control only for BusinessLogic, rest of it use Directives-->
+    <!--// directives, nginclude for html import-->
+    <!--ngRoute, ngView-->
+    <!--locationProvider-->
+    <!--UIRouter (bu daha iyi), ui-sref, States (home) and NestedStates (home.selected) | State olayı masterpage vari çözüm-->
+
+
     
     <div class="bar bar-header bar-calm">
         <button class="button ion-navicon"></button>
@@ -33,8 +44,13 @@
     </div>
 
     <script src="Scripts/angular.min.js"></script>
-    <script src="Controllers/MainApp.js"></script>
+    <script>
+        console.log("angular is loaded");
+    </script>
+    <script src="Controllers/mainApp.js"></script>
     <script src="Scripts/ionic.bundle.js"></script>
     <link href="Content/ionic.css" rel="stylesheet" />
 </body>
 </html>
+
+

@@ -1,5 +1,5 @@
-﻿<div class="list">
-    <div class="item" ng-repeat="category in categories">
+﻿<div class="list" ng-app="mainApp" ng-controller="MainCtrl">
+    <div class="item" ng-repeat="category in categories | orderBy: 'Name'">
         {{category.Name}}
         <span class="badge badge-calm">{{category.CategoryID}}</span>
     </div>

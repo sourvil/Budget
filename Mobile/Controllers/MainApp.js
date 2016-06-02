@@ -1,6 +1,15 @@
-﻿angular.module("MainApp", [])
+﻿angular.module("mainApp", [])
+.config([function () {
+        /* Configuration is where you configure providers ( not instances) */
+        console.log("mainApp config")
+    }])
 
-.controller("MainController", function ($scope, $http) {
+.run([function () {
+    /* Run is when the app gets kicked off */
+    console.log("mainApp starts");
+}])
+
+.controller("MainCtrl", function ($scope, $http) {
     //$scope.surname = "donbay";
     //$scope._surname2 = "donbay2";
     //$scope.teams = [{ 'name': "Fenerbahçe", 'colors': 'Yellow-Navy' }, { 'name': 'Galatasaray', 'colors': 'Yellow-Red' }, {'name':'Beşiktaş','colors' : 'White-Black'}];

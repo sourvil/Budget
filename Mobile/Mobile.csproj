@@ -103,7 +103,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Controllers\MainApp.js" />
+    <Content Include="Controllers\mainApp.js" />
     <Content Include="index.html" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
