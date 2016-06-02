@@ -876,6 +876,9 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
+    <Content Include="templates\categories.html" />
+    <Content Include="templates\category.html" />
+    <Content Include="templates\menu.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,8 @@ angular.module('starter.controllers', [])
   };
 })
 
+    
+
 .controller('PlaylistsCtrl', function($scope) {
   $scope.playlists = [
     { title: 'Reggae', id: 1 },
@@ -54,3 +56,19 @@ angular.module('starter.controllers', [])
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 });
+
+.controller('CategoriesCtrl', function($scope, $http)
+{
+    getCategories();
+
+    function getCategories() {
+        $http.get('http://localhost:2478/api/Category')
+     .then(function (res) {
+         console.log(res);
+         //$scope.people = res.data;
+         $scope.categories = res.data;
+     });
+    };
+        
+});
+

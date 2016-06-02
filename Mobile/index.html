@@ -2,47 +2,39 @@
 <html ng-app="MainApp">
 <head>
     <title>Budget Mobile</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 </head>
-<body  ng-controller="MainController">
-    <h1 ng-init="name='burak'">{{name}}</h1>
-    <input ng-model="name" />
-
-    <div>
-        <p>
-            {{surname}}
-        </p>
-        <p>
-            {{_surname2}}
-        </p>
+<body ng-controller="MainController">
+    
+    <div class="bar bar-header bar-calm">
+        <button class="button ion-navicon"></button>
+        <h1 class="title">Budget</h1>
+        <button class="button">Edit</button>
     </div>
 
-    <form name="MainForm" >
-        <input ng-model="surname" />
-        <button id="btnSetSurname"  ng-click="setSurname(surname)">Click</button>
-    </form>
-
-    <br />
-    <label>Search</label>
-    <input ng-model="searchText" />
-    <ul>
-        <li ng-repeat="team in teams | filter:searchText">
-            Name : {{team.name}}
-            Colors : {{team.colors}}
-        </li>
-    </ul>
-    <ul>
-        <li ng-repeat="category in categories">
-            Name : {{category.Name}}
-        </li>
-    </ul>
-
-    
-
-    <!--<iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiYzBiYTA3NDYtM2U4NS00YTlhLTgwYTMtMWI0YTk4MGU0ZTE1IiwidCI6IjM0ZWY5Yzk0LWIwZTYtNDhlYS1hODk3LTA5OTAyMWZlOWNmZSIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>-->
-    
+    <div class="tabs tabs-calm tabs-icon-top">
+        <a class="tab-item" href="index.html">
+            <i class="icon ion-home"></i>
+            Home
+        </a>
+        <a class="tab-item">
+            <i class="icon ion-location"></i>
+            Item
+        </a>
+        <a class="tab-item" href="templates/categories.html">
+            <i class="icon ion-ios-barcode"></i>
+            Category
+        </a>
+        <a class="tab-item">
+            <i class="icon ion-social-twitter"></i>
+            SubCategory
+        </a>
+    </div>
 
     <script src="Scripts/angular.min.js"></script>
     <script src="Controllers/MainApp.js"></script>
+    <script src="Scripts/ionic.bundle.js"></script>
+    <link href="Content/ionic.css" rel="stylesheet" />
 </body>
 </html>
