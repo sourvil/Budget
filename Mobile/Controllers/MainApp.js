@@ -10,7 +10,7 @@
 }])
 
 .controller("MainCtrl", function ($scope, $http) {
-    //$scope.surname = "donbay";
+    $scope.surname = "donbay";
     //$scope._surname2 = "donbay2";
     //$scope.teams = [{ 'name': "Fenerbahçe", 'colors': 'Yellow-Navy' }, { 'name': 'Galatasaray', 'colors': 'Yellow-Red' }, {'name':'Beşiktaş','colors' : 'White-Black'}];
 
