@@ -110,6 +110,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Data\Context\BudgetDBContext.cs" />
     <Compile Include="Models\Data\Models\Category.cs" />
     <Compile Include="Models\Data\Models\Item.cs" />

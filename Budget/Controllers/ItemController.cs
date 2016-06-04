@@ -6,23 +6,25 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Budget.Models.Data.Context;
-using Budget.Models.Data.Models;
 using System.Data.Entity.Core.Objects;
 using Budget.Base;
+using Resource.Models.Data.Models;
+using System.Net.Http;
 
 namespace Budget.Controllers
 {
     public class ItemController : BaseController
     {
-        private BudgetDBContext db = new BudgetDBContext();
-        private Resource.Controllers.ItemController ic = new Resource.Controllers.ItemController();
 
         // GET: Item
         public ActionResult Index()
         {
-            var item = db.Item.Where(s => s.Status == 1);
-            return View(item.ToList());
+            var result = GetWebApiResult("api/item", new List<Item>());
+            if (result.Count > 0)
+                return View(result as List<Item>);
+            else
+                return View();
+
         }
 
         // GET: Item/Details/5
@@ -32,29 +34,28 @@ namespace Budget.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = db.Item.Find(id);
-            //ObjectResult<string> or = db.Decrypt(item.AmountEncrypted);
-            //item.Amount = Convert.ToInt32(or.First().ToString());
-            if (item == null)
+            var result = GetWebApiResult("api/item/" + id, new Item());
+            if (result == null)
             {
                 return HttpNotFound();
             }
-            return View(item);
+            else
+            {
+                return View(result as Item);
+            }
         }
 
         // GET: Item/Create
         public ActionResult Create()
         {
-            //ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name");
-
-            ViewBag.SubCategoryID =
-                        db.SubCategory.Where(p => p.Status == 1)
-                        .Select(x => new SelectListItem
-                        {
-                            Value = x.SubCategoryID.ToString(),
-                            Text = x.Name,
-                        });
+            GetSubCategory();
             return View();
+        }
+
+        private void GetSubCategory(int? SubCategoryID = 0)
+        {
+            var result = GetWebApiResult("api/subcategory", new List<SubCategory>());
+            ViewBag.SubCategoryID = new SelectList(result as List<SubCategory>, "SubCategoryID", "Name", SubCategoryID);
         }
 
         // POST: Item/Create
@@ -66,17 +67,20 @@ namespace Budget.Controllers
         {
             if (ModelState.IsValid)
             {
-                //ObjectResult<byte[]> or = db.Encrypt(item.Amount);
-                //item.AmountEncrypted =or.First();
-                item.Status = 1;
-                db.Item.Add(item);
-                db.SaveChanges();
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.PostAsJsonAsync<Item>("api/item/create", item).Result;
                 return RedirectToAction("Index");
             }
-
-            ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name", item.SubCategoryID);
-            return View(item);
-        }
+            else
+            {
+                GetSubCategory(item.SubCategoryID);
+                return View(item);
+            }
+            
+          }
 
         // GET: Item/Edit/5
         public ActionResult Edit(int? id)
@@ -85,13 +89,16 @@ namespace Budget.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = db.Item.Find(id);
-            if (item == null)
+            var result = GetWebApiResult("api/item/" + id, new Item());
+            if (result == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name", item.SubCategoryID);
-            return View(item);
+            else
+            {
+                GetSubCategory(((Item)result).SubCategoryID);
+                return View((Item)result);
+            }           
         }
 
         // POST: Item/Edit/5
@@ -103,12 +110,19 @@ namespace Budget.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(item).State = EntityState.Modified;
-                db.SaveChanges();
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.PutAsJsonAsync<Item>("api/item", item).Result;
+
                 return RedirectToAction("Index");
             }
-            ViewBag.SubCategoryID = new SelectList(db.SubCategory, "SubCategoryID", "Name", item.SubCategoryID);
-            return View(item);
+            else
+            {
+                GetSubCategory(item.SubCategoryID);
+                return View(item);
+            }
         }
 
         // GET: Item/Delete/5
@@ -118,12 +132,16 @@ namespace Budget.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = db.Item.Find(id);
-            if (item == null)
+            var result = GetWebApiResult("api/item/" + id, new Item());
+            if (result == null)
             {
                 return HttpNotFound();
             }
-            return View(item);
+            else
+            {
+                GetSubCategory(((Item)result).SubCategoryID);
+                return View((Item)result);
+            }
         }
 
         // POST: Item/Delete/5
@@ -131,10 +149,15 @@ namespace Budget.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Item item = db.Item.Find(id);
-            //db.Item.Remove(item);
-            item.Status = 0;
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.DeleteAsync("api/item/" + id).Result;
+
+            }
             return RedirectToAction("Index");
         }
 
@@ -146,7 +169,7 @@ namespace Budget.Controllers
         [HttpGet, ActionName("Chart")]
         public JsonResult Chart()
         {
-            var Items = db.Item.Include(x=>x.SubCategory.Category).Where(x => x.Status == 1).OrderBy(x => x.Date.Month);            
+            var Items = GetWebApiResult("api/item", new List<Item>());
 
             List<string> lstMonth = new List<string>();
             List<string> lstExpences = new List<string>();
@@ -155,16 +178,15 @@ namespace Budget.Controllers
 
             foreach (var item in Items)
             {
-                Item dbItem = item;
-                if (dbItem.SubCategory.Category.CategoryType)
+                if (item.SubCategory.Category.CategoryType)
                 {
-                    lstExpences.Add(dbItem.Amount.ToString());
+                    lstExpences.Add(item.Amount.ToString());
                 }
                 else
                 {
-                    lstIncome.Add(dbItem.Amount.ToString());
+                    lstIncome.Add(item.Amount.ToString());
                 }
-                string strMonth = dbItem.Date.ToString("MMMM");
+                string strMonth = item.Date.ToString("MMMM");
                 strMonth = strMonth.UppercaseFirstLetter();
                 if (!lstMonth.Contains(strMonth))
                     lstMonth.Add(strMonth);
@@ -180,15 +202,6 @@ namespace Budget.Controllers
             };
 
             return Json(BarChart, JsonRequestBehavior.AllowGet);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

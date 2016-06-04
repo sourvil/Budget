@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Budget.Models.Data.Models.Item>
+﻿@model IList<Resource.Models.Data.Models.Item>
 
 @{
     ViewBag.Title = "Index";
@@ -13,31 +13,34 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SubCategory.Name)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => model[0].SubCategory.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Note)
+            @Html.DisplayNameFor(model => model[0].Amount)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model[0].Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Status)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.SubCategory.Name)
         </td>
-        @*<td>
+        <td>
             @Html.DisplayFor(modelItem => item.Amount)
-        </td>*@
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
@@ -48,11 +51,12 @@
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ItemID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ItemID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ItemID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ItemID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ItemID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ItemID })
         </td>
     </tr>
+    }
 }
 
 </table>

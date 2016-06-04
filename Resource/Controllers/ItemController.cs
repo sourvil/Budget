@@ -14,9 +14,37 @@ namespace Resource.Controllers
     {
         private BudgetDBContext db = new BudgetDBContext();
 
-        public IEnumerable<Item> Get()
+        public List<Item> Get()
         {
-            return db.Item.Where(s => s.Status == 1).AsEnumerable();
+            return db.Item.Include("SubCategory").Include("SubCategory.Category").Where(s => s.Status == 1).OrderBy(x => x.Date.Month).ToList();
         }
+
+        public Item Get(int ID)
+        {
+            return db.Item.Find(ID);
+        }
+
+        [Route("api/item/create")]
+        public void Create(Item item)
+        {
+            item.Status = 1;
+            db.Item.Add(item);
+            db.SaveChanges();
+        }
+
+        public void Put(Item item)
+        {
+            item.Status = 1;
+            db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void Delete(int ID)
+        {
+            Item item = db.Item.Find(ID);
+            item.Status = 0;
+            db.SaveChanges();
+        }
+
     }
 }

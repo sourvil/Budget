@@ -6,44 +6,51 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Budget.Models.Data.Context;
-using Budget.Models.Data.Models;
 using Budget.Base;
+using System.Net.Http;
 
 namespace Budget.Controllers
 {
     public class SubCategoryController : BaseController
-    {
-        private BudgetDBContext db = new BudgetDBContext();
-
-        // GET: SubCategory
+    {      
+                // GET: SubCategory
         public ActionResult Index()
         {
-            var subCategory = db.SubCategory.Include(s => s.Category).Where(s=>s.Status == 1);
-            return View(subCategory.ToList());
+            var result = GetWebApiResult("api/subcategory", new List<Resource.Models.Data.Models.SubCategory>());
+            if (result.Count > 0)
+                return View(result as List<Resource.Models.Data.Models.SubCategory>);
+            else
+                return View();
         }
 
         public ActionResult Create()
         {
-            ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name",0);
-
+            GetCategoryList();
             return View();
+        }
+
+        private void GetCategoryList(int? CategoryID = 0)
+        {
+            var result = GetWebApiResult("api/category", new List<Resource.Models.Data.Models.Category>());
+            ViewBag.CategoryID = new SelectList(result as List<Resource.Models.Data.Models.Category>, "CategoryID", "Name", CategoryID);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(SubCategory subCategory)
+        public ActionResult Create(Resource.Models.Data.Models.SubCategory subCategory)
         {
             if (ModelState.IsValid)
             {
-                subCategory.Status = 1;
-                db.SubCategory.Add(subCategory);
-                db.SaveChanges();
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.PostAsJsonAsync<Resource.Models.Data.Models.SubCategory>("api/subcategory/create", subCategory).Result;
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name", 0);
+                GetCategoryList();
                 ValidateRequest = false;
                 return View(subCategory);
             }
@@ -52,40 +59,46 @@ namespace Budget.Controllers
         public ActionResult Update(int? id)
         {
             if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            SubCategory subCategory = db.SubCategory.Find(id);
-            
-            ViewBag.CategoryID = new SelectList(db.Category, "CategoryID", "Name", subCategory.CategoryID);
-
-            if (subCategory != null)
-                return View(subCategory);
+            }
+            var result = GetWebApiResult("api/subcategory/" + id, new Resource.Models.Data.Models.SubCategory());
+            if (result != null)
+            {
+                GetCategoryList((result as Resource.Models.Data.Models.SubCategory).CategoryID);
+                return View(result as Resource.Models.Data.Models.SubCategory);
+            }
             else
-                return HttpNotFound("No SubCategory!");
+                return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(SubCategory subCategory)
+        public ActionResult Update(Resource.Models.Data.Models.SubCategory subCategory)
         {
             if (ModelState.IsValid)
             {
-                subCategory.Status = 1;
-                db.Entry(subCategory).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");   
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.PutAsJsonAsync<Resource.Models.Data.Models.SubCategory>("api/subcategory", subCategory).Result;
+
+                return RedirectToAction("Index");
             }
-            return View(subCategory);
+            return View(subCategory);            
         }
 
         public ActionResult Delete(int? id)
         {
             if(id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            SubCategory subCategory = db.SubCategory.Find(id);
-            if (subCategory == null)
+            var result = GetWebApiResult("api/subcategory/" + id, new Resource.Models.Data.Models.SubCategory());
+
+            if (result == null)
                 return HttpNotFound();
             else
             {
-                return View(subCategory);
+                return View(result as Resource.Models.Data.Models.SubCategory);
             }
         }
 
@@ -93,19 +106,16 @@ namespace Budget.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            SubCategory subCategory = db.SubCategory.Find(id);
-            subCategory.Status = 0;
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            if (ModelState.IsValid)
             {
-                db.Dispose(); 
+                HttpClient hc = GetHttpClient();
+
+                HttpResponseMessage Response = null;
+
+                Response = hc.DeleteAsync("api/subcategory/" + id).Result;
+
             }
-            base.Dispose(disposing);
+            return RedirectToAction("Index");
         }
     }
 }

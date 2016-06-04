@@ -6,8 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Budget.Models.Data.Context;
-using Budget.Models.Data.Models;
 using Budget.Base;
 using System.Net.Http;
 
@@ -15,7 +13,7 @@ namespace Budget.Controllers
 {
     public class CategoryController : BaseController
     {
-        private BudgetDBContext db = new BudgetDBContext();
+        //private BudgetDBContext db = new BudgetDBContext();
 
         // GET: Category
         public ActionResult Index()
@@ -130,15 +128,6 @@ namespace Budget.Controllers
 
             }
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
