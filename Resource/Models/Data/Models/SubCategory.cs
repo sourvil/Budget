@@ -16,6 +16,8 @@ namespace Resource.Models.Data.Models
         [Required]
         public int Status { get; set; }
 
+
+        [ForeignKey("Category")]
         public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
 

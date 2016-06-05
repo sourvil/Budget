@@ -14,7 +14,8 @@ namespace Resource.Controllers
         private BudgetDBContext db = new BudgetDBContext();
         public List<SubCategory> Get()
         {
-            return db.SubCategory.Include("Category").Where(s => s.Status == 1).ToList();
+            return db.SubCategory.Where(s => s.Status == 1).ToList();
+            //return db.SubCategory.Include("Category").Where(s => s.Status == 1).ToList();
         }
 
         [Route("api/subcategory/create")]
