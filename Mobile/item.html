@@ -1,0 +1,14 @@
+﻿<div class="list" ng-app="mainApp" ng-controller="MainCtrl">
+    <div class="item" ng-repeat="item in items | orderBy: 'Name'">
+        <h2>{{item.Date | date:'mediumDate'}}</h2>
+        <div ng-repeat-start="SubCategory in item" ng-if="$first" big>
+
+            <div ng-repeat-start="Category in SubCategory" ng-if="$first" big>
+                <h4>{{item.Amount + " TL, " + SubCategory.Name + " / " + Category.Name}}</h4>
+            </div>
+            <div ng-repeat-end ng-if="!$first"></div>
+
+        </div>
+        <div ng-repeat-end ng-if="!$first"></div>
+    </div>
+</div>

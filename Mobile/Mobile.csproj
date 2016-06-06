@@ -68,6 +68,8 @@
   <ItemGroup>
     <Content Include="Content\ionic.css" />
     <Content Include="Content\ionic.min.css" />
+    <Content Include="item.html" />
+    <Content Include="Scripts\ui.router.js" />
     <Content Include="fonts\ionicons.svg" />
     <Content Include="packages.config" />
     <Content Include="Scripts\angular-ui-router.js" />
@@ -876,8 +878,10 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
-    <Content Include="templates\categories.html" />
-    <Content Include="templates\category.html" />
+    <Content Include="subcategory.html" />
+    <Content Include="templates\__temp.html" />
+    <Content Include="category.html" />
+    <Content Include="templates\header.html" />
     <Content Include="templates\menu.html" />
     <Content Include="Web.config" />
   </ItemGroup>

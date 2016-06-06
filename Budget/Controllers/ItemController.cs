@@ -78,8 +78,7 @@ namespace Budget.Controllers
             {
                 GetSubCategory(item.SubCategoryID);
                 return View(item);
-            }
-            
+            }            
           }
 
         // GET: Item/Edit/5

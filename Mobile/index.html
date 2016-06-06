@@ -21,8 +21,6 @@
     http://stackoverflow.com/questions/15666048/angularjs-service-vs-provider-vs-factory
         -->
     <!--resource??-->
-    <h1>{{surname}}</h1>
-    <input ng-model="surname" type="text" />
 
     <!--<div class="bar bar-header bar-calm">
         <button class="button ion-navicon"></button>
@@ -33,21 +31,31 @@
         <canvas id="dvbarchart"></canvas>
     </div>-->
 
+    <div ng-include src="'templates/header.html'"></div>
+
+    <!-- Page Content -->
+    <div class="container">
+        <ui-view></ui-view>
+
+
+    </div>
+
+   
 
     <div class="tabs tabs-calm tabs-icon-top">
-        <a class="tab-item" href="index.html">
+        <a class="tab-item" href="#/home">
             <i class="icon ion-home"></i>
             Home
         </a>
-        <a class="tab-item">
+        <a class="tab-item" href="#/item">
             <i class="icon ion-location"></i>
             Item
         </a>
-        <a class="tab-item" href="templates/categories.html">
+        <a class="tab-item" href="#/category">
             <i class="icon ion-ios-barcode"></i>
             Category
         </a>
-        <a class="tab-item">
+        <a class="tab-item" ui-sref="@/subcategory">
             <i class="icon ion-social-twitter"></i>
             SubCategory
         </a>
@@ -60,6 +68,8 @@
     <script src="Controllers/mainApp.js"></script>
     <script src="Scripts/ionic.bundle.js"></script>
     <link href="Content/ionic.css" rel="stylesheet" />
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-route.js"></script>
+    <script src="Scripts/ui.router.js"></script>
 </body>
 </html>
 
