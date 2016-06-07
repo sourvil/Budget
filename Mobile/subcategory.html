@@ -1,10 +1,27 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-	<meta charset="utf-8" />
-</head>
-<body>
+﻿<ion-content>
 
-</body>
-</html>
+    <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
+
+    <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+
+        <ion-item ng-repeat="item in subCategories"
+                  item="item"
+                  href="#/item/{{item.SubCategoryID}}" class="item-remove-animate">
+            {{ item.Name }}
+            <ion-delete-button class="ion-minus-circled"
+                               ng-click="onItemDelete(item)">
+            </ion-delete-button>
+            <ion-option-button class="button-assertive"
+                               ng-click="edit(item)">
+                Edit
+            </ion-option-button>
+            <ion-option-button class="button-calm"
+                               ng-click="share(item)">
+                Share
+            </ion-option-button>
+            <ion-reorder-button class="ion-navicon" on-reorder="moveItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

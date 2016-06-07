@@ -1,6 +1,29 @@
-﻿<div class="list" ng-app="mainApp" ng-controller="MainCtrl">
-    <div class="item" ng-repeat="category in categories | orderBy: 'Name'">
-        {{category.Name}}
-        <span class="badge badge-calm">{{category.CategoryID}}</span>
-    </div>
-</div>
+﻿<ion-content>
+
+    <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
+
+    <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+
+        <ion-item ng-repeat="item in categories"
+                  item="item"
+                  class="item-remove-animate">
+            
+            <a href="#/categorydetail/{{item.CategoryID}}">{{ item.Name }}</a>
+
+            <ion-delete-button class="ion-minus-circled"
+                               ng-click="onItemDelete(item)">
+            </ion-delete-button>
+            <ion-option-button class="button-assertive"
+                               ng-click="edit(item)">
+                Edit
+            </ion-option-button>
+            <ion-option-button class="button-calm"
+                               ng-click="share(item)">
+                Share
+            </ion-option-button>
+            <ion-reorder-button class="ion-navicon" on-reorder="moveItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

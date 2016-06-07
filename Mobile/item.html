@@ -1,14 +1,27 @@
-﻿<div class="list" ng-app="mainApp" ng-controller="MainCtrl">
-    <div class="item" ng-repeat="item in items | orderBy: 'Name'">
-        <h2>{{item.Date | date:'mediumDate'}}</h2>
-        <div ng-repeat-start="SubCategory in item" ng-if="$first" big>
+﻿<ion-content>
 
-            <div ng-repeat-start="Category in SubCategory" ng-if="$first" big>
-                <h4>{{item.Amount + " TL, " + SubCategory.Name + " / " + Category.Name}}</h4>
-            </div>
-            <div ng-repeat-end ng-if="!$first"></div>
+    <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
 
-        </div>
-        <div ng-repeat-end ng-if="!$first"></div>
-    </div>
-</div>
+    <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+
+        <ion-item ng-repeat="item in items"
+                  item="item"
+                  href="#/item/{{item.ItemID}}" class="item-remove-animate">
+            {{ item.Amount + " TL, " + item.Date }}
+            <ion-delete-button class="ion-minus-circled"
+                               ng-click="onItemDelete(item)">
+            </ion-delete-button>
+            <ion-option-button class="button-assertive"
+                               ng-click="edit(item)">
+                Edit
+            </ion-option-button>
+            <ion-option-button class="button-calm"
+                               ng-click="share(item)">
+                Share
+            </ion-option-button>
+            <ion-reorder-button class="ion-navicon" on-reorder="moveItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

@@ -1,14 +1,19 @@
-﻿<!DOCTYPE html>
-<html ng-app="mainApp">
+﻿<html ng-app="ionicApp">
 <head>
-    <title>Budget Mobile</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Ionic List Directive</title>
+
+    <link href="Content/ionic.css" rel="stylesheet">
+    <script src="Scripts/ionic.bundle.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Controllers/ionicApp.js"></script>
 </head>
-<body ng-controller="MainCtrl">
-    <!--// factory --> 
-    <!--// control as--> 
-    <!--// :: one way binding--> 
+
+<body ng-controller="MyCtrl" style="cursor: url('http://ionicframework.com/img/finger.png'), auto;">
+    <!--// factory -->
+    <!--// control as-->
+    <!--// :: one way binding-->
     <!--// custom filter-->
     <!--use control only for BusinessLogic, rest of it use Directives-->
     <!--// directives, nginclude for html import-->
@@ -16,61 +21,39 @@
     <!--locationProvider-->
     <!--UIRouter (bu daha iyi), ui-sref, States (home) and NestedStates (home.selected) | State olayı masterpage vari çözüm-->
     <!--factory // return value
-    provider // config, 
+    provider // config,
     service // return function
     http://stackoverflow.com/questions/15666048/angularjs-service-vs-provider-vs-factory
         -->
     <!--resource??-->
-
-    <!--<div class="bar bar-header bar-calm">
-        <button class="button ion-navicon"></button>
-        <h1 class="title">Budget</h1>
-        <button class="button">Edit</button>
-    </div>-->
-    <!--<div style="width:800px;" class="ion-home">
-        <canvas id="dvbarchart"></canvas>
-    </div>-->
-
-    <div ng-include src="'templates/header.html'"></div>
-
+    <!--<div ng-include src="'templates/header.html'"></div>-->
     <!-- Page Content -->
-    <div class="container">
-        <ui-view></ui-view>
 
-
+    <!--
+    <ion-header-bar class="bar-positive">
+        <div class="buttons">
+            <button class="button button-icon icon ion-ios-minus-outline"
+                    ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
+        </div>
+        <h1 class="title">Ionic Delete/Option Buttons</h1>
+        <div class="buttons">
+            <button class="button" ng-click="data.showDelete = false; data.showReorder = !data.showReorder">
+                Reorder
+            </button>
+            <a class="tab-item" ui-sref="category">New</a>
+            
+        </div>
+    </ion-header-bar>
+    -->
+    <div>
+        <ui-view>
+        </ui-view>
     </div>
-
-   
-
-    <div class="tabs tabs-calm tabs-icon-top">
-        <a class="tab-item" href="#/home">
-            <i class="icon ion-home"></i>
-            Home
-        </a>
-        <a class="tab-item" href="#/item">
-            <i class="icon ion-location"></i>
-            Item
-        </a>
-        <a class="tab-item" href="#/category">
-            <i class="icon ion-ios-barcode"></i>
-            Category
-        </a>
-        <a class="tab-item" ui-sref="@/subcategory">
-            <i class="icon ion-social-twitter"></i>
-            SubCategory
-        </a>
+    <div class="tabs tabs-positive tabs-icon-top">
+        <a class="tab-item ion-coffee" ui-sref="home">Home</a>
+        <a class="tab-item ion-alert" ui-sref="item">Item</a>
+        <a class="tab-item" ui-sref="category">Category</a>
+        <a class="tab-item" ui-sref="subcategory">SubCategory</a>
     </div>
-
-    <script src="Scripts/angular.min.js"></script>
-    <script>
-        console.log("angular is loaded");
-    </script>
-    <script src="Controllers/mainApp.js"></script>
-    <script src="Scripts/ionic.bundle.js"></script>
-    <link href="Content/ionic.css" rel="stylesheet" />
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-route.js"></script>
-    <script src="Scripts/ui.router.js"></script>
 </body>
 </html>
-
-
