@@ -9,10 +9,11 @@
         $.ajax({
             datatype: "json",
             type: "GET",
-            url: "/Item/Chart",
-            //data: JSON,
+            url: "http://localhost:2478/api/item/chart",
+            data: JSON,
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                console.log(data);
                 BarChart(data);
             },
             error: function () {

@@ -2,12 +2,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Ionic List Directive</title>
+    <title>Budget Mobile</title>
 
     <link href="Content/ionic.css" rel="stylesheet">
     <script src="Scripts/ionic.bundle.js"></script>
     <script src="Scripts/angular.min.js"></script>
     <script src="Controllers/ionicApp.js"></script>
+    <script src="Scripts/Chart.js"></script>
 </head>
 
 <body ng-controller="MyCtrl" style="cursor: url('http://ionicframework.com/img/finger.png'), auto;">
@@ -29,31 +30,119 @@
     <!--<div ng-include src="'templates/header.html'"></div>-->
     <!-- Page Content -->
 
-    <!--
+    
     <ion-header-bar class="bar-positive">
         <div class="buttons">
             <button class="button button-icon icon ion-ios-minus-outline"
                     ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
         </div>
-        <h1 class="title">Ionic Delete/Option Buttons</h1>
+        <h1 class="title">Budget Mobile</h1>
         <div class="buttons">
-            <button class="button" ng-click="data.showDelete = false; data.showReorder = !data.showReorder">
-                Reorder
+            <button class="button button-icon ion-compose"
+                    ng-click="openModal();">
+                New
             </button>
-            <a class="tab-item" ui-sref="category">New</a>
-            
         </div>
     </ion-header-bar>
-    -->
+
+    <div style="width:500px; height:500px;">
+        <canvas id="dvbarchart"></canvas>
+    </div>
+
+    
     <div>
         <ui-view>
         </ui-view>
     </div>
     <div class="tabs tabs-positive tabs-icon-top">
-        <a class="tab-item ion-coffee" ui-sref="home">Home</a>
-        <a class="tab-item ion-alert" ui-sref="item">Item</a>
-        <a class="tab-item" ui-sref="category">Category</a>
-        <a class="tab-item" ui-sref="subcategory">SubCategory</a>
+        <a class="tab-item" ui-sref="home">
+            <i class="icon ion-home"></i>
+        Home</a>
+        <a class="tab-item" ui-sref="item">
+            <i class="icon ion-heart"></i>
+        Item</a>
+        <a class="tab-item" ui-sref="category">
+            <i class="icon ion-calculator"></i>
+        Category</a>
+        <a class="tab-item" ui-sref="subcategory">
+            <i class="icon ion-android-desktop"></i>
+        SubCategory</a>
     </div>
+
+
+    <script id="category.create.html" type="text/ng-template">        
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-positive">
+                <h1 class="title">New {{statename}}</h1>
+                <button class="button button-clear button-primary" ng-click="categoryModal.hide()">Cancel</button>
+            </ion-header-bar>
+            <ion-content class="padding">
+                
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Name</span>
+                        <input ng-model="newCategoryName" type="text">
+                    </label>
+                </div>
+                <div class="list">
+                    <label class="item-balanced checkbox">
+                        <input type="checkbox" ng-model="newCategoryType">Gider mi?
+                    </label>
+                    <button class="button button-full button-positive" ng-click="createCategory(newCategoryName,newCategoryType)">Create</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+    <script id="subcategory.create.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-positive">
+                <h1 class="title">New {{statename}}</h1>
+                <button class="button button-clear button-primary" ng-click="subCategoryModal.hide()">Cancel</button>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Name</span>
+                        <input ng-model="newSubCategoryName" type="text">
+                    </label>
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Category 
+                        </div>
+                        <select ng-change="CategorySelectedChanged(selectedCategory)" ng-model="selectedCategory" ng-options="category.Name for category in categories track by category.CategoryID"></select>
+                    </label>
+                    <button class="button button-full button-positive" ng-click="createSubCategory(newSubCategoryName)">Create</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+    <script id="item.create.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-positive">
+                <h1 class="title">New {{statename}}</h1>
+                <button class="button button-clear button-primary" ng-click="itemModal.hide()">Cancel</button>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Date</span>
+                        <input ng-model="newItemDate" type="date">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Amount</span>
+                        <input ng-model="newItemAmount" type="number">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">SubCategory</span>
+                        <select ng-change="SubCategorySelectedChanged(selectedSubCategory)" ng-model="selectedSubCategory" ng-options="subCategory.Name for subCategory in subCategories track by subCategory.SubCategoryID"></select>
+                    </label>
+                    <button class="button button-full button-positive" ng-click="createItem(newItemDate,newItemAmount)">Create</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
 </body>
 </html>

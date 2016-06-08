@@ -7,7 +7,8 @@
         <ion-item ng-repeat="item in items"
                   item="item"
                   href="#/item/{{item.ItemID}}" class="item-remove-animate">
-            {{ item.Amount + " TL, " + item.Date }}
+            {{ item.Amount + " TL, " }}
+            {{ item.Date | date: "dd.MM.yyyy"}}
             <ion-delete-button class="ion-minus-circled"
                                ng-click="onItemDelete(item)">
             </ion-delete-button>

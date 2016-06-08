@@ -26,6 +26,7 @@ namespace Resource.Controllers
         [Route("api/category/create")]
         public void Create(Category category)
         {
+            category.Status = 1;
             db.Category.Add(category);
             db.SaveChanges();
         }

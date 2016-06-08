@@ -68,8 +68,11 @@
   <ItemGroup>
     <Content Include="Content\ionic.css" />
     <Content Include="Content\ionic.min.css" />
+    <Content Include="Controllers\app2.js" />
     <Content Include="Controllers\ionicApp.js" />
     <Content Include="item.html" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\ui.router.js" />
     <Content Include="fonts\ionicons.svg" />
     <Content Include="packages.config" />

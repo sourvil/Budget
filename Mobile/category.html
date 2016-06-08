@@ -1,14 +1,25 @@
 ﻿<ion-content>
-
-    <!-- The list directive is great, but be sure to also checkout the collection repeat directive when scrolling through large lists -->
-
+   
+    <ion-refresher style="width:100%;" pulling-text="Pull to refresh..."
+                   on-refresh="doRefreshCategory()">
+    </ion-refresher>
     <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
 
         <ion-item ng-repeat="item in categories"
                   item="item"
                   class="item-remove-animate">
             
-            <a href="#/categorydetail/{{item.CategoryID}}">{{ item.Name }}</a>
+            
+            <li class="item item-toggle">
+                <a href="#/categorydetail/{{item.CategoryID}}">{{ item.Name + ", " + item.CategoryType  }}</a>
+                <label ng-class="(item.CategoryType) ? 'toggle toggle-assertive' : 'toggle toggle-balanced'">
+                    <input type="checkbox" checked="checked" ng-disabled="true">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+
 
             <ion-delete-button class="ion-minus-circled"
                                ng-click="onItemDelete(item)">
@@ -27,3 +38,4 @@
     </ion-list>
 
 </ion-content>
+
