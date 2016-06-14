@@ -21,7 +21,7 @@ namespace Budget.Controllers
             //    string s2 = ravenClient.Capture(new SharpRaven.Data.SentryEvent(e));
             //    Console.WriteLine(s2);
             //}
-            int i = Convert.ToInt32("a");
+            //int i = Convert.ToInt32("a");
             return View();
         }
 
