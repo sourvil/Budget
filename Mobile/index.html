@@ -29,7 +29,7 @@
     <!--resource??-->
     <!--<div ng-include src="'templates/header.html'"></div>-->
     <!-- Page Content -->
-
+    
     
     <ion-header-bar class="bar-positive">
         <div class="buttons">
@@ -101,19 +101,25 @@
                 <button class="button button-clear button-primary" ng-click="subCategoryModal.hide()">Cancel</button>
             </ion-header-bar>
             <ion-content class="padding">
-                <div class="list">
-                    <label class="item item-input">
-                        <span class="input-label">Name</span>
-                        <input ng-model="newSubCategoryName" type="text">
-                    </label>
-                    <label class="item item-input item-select">
-                        <div class="input-label">
-                            Category 
-                        </div>
-                        <select ng-change="CategorySelectedChanged(selectedCategory)" ng-model="selectedCategory" ng-options="category.Name for category in categories track by category.CategoryID"></select>
-                    </label>
-                    <button class="button button-full button-positive" ng-click="createSubCategory(newSubCategoryName)">Create</button>
-                </div>
+                <form name="formSubCategory" novalidate="novalidate">
+                    <div class="list">
+                        <label class="item item-input">
+                            <span class="input-label">Name</span>
+                            <input name="newSubCategoryName" ng-model="newSubCategoryName" type="text" required="" ng-required="true">
+                        </label>
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                                Category
+                            </div>
+                            <select ng-change="CategorySelectedChanged(selectedCategory)" ng-model="selectedCategory" ng-options="category.Name for category in categories track by category.CategoryID"></select>
+                        </label>
+                        <button class="button button-full button-positive" ng-click="createSubCategory(newSubCategoryName)">Create</button>
+                    </div>
+                    <div class="item errors">
+                        <p>SubCategoryName Errors:</p>
+                        <p ng-show="formSubCategory.newSubCategoryName.$error.required">SubCategoryName is required</p>
+                    </div>
+                </form>
             </ion-content>
         </ion-modal-view>
     </script>

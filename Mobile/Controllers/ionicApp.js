@@ -308,7 +308,6 @@
     };
 
     $scope.show = function () {
-
         // Show the action sheet
         var hideSheet = $ionicActionSheet.show({
             buttons: [
@@ -331,21 +330,10 @@
                 return true;
             }
         });
-
     };
 
     $scope.doRefreshCategory = function () {
         getCategories();
-        //$http.get('http://localhost:2478/api/Category')
-        // .then(function (newItems) {
-        //     console.log("on refresh success: ");
-        //     $scope.categories = newItems.data;
-        // })
-        // .finally(function() {
-        // //    // Stop the ion-refresher from spinning
-        //     $scope.$broadcast('scroll.refreshComplete');
-        // })
-        //;
     };
 
     chart();
